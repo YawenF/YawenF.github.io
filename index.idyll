@@ -1,0 +1,52 @@
+[meta title:"Hw10" description:"IS445 - Homework 10" /]
+
+[Header
+  fullWidth:true
+  title:"IS445 HW10"
+  subtitle:""
+  author:"Yawen Feng"
+  authorLink:"https://github.com/YawenF/YawenF.github.io"
+  date:`(new Date()).toDateString()`
+  background:"#222222"
+  color:"#ffffff"
+   /]
+
+
+## Introduction
+
+For this homework, I use the [building inventory dataset](https://uiuc-ischool-dataviz.github.io/spring2019online/week02/building_inventory.csv) from Week 2's materials.
+This dataset includes information about public buildings in Illinois.
+
+I am going to make two plots, one with Idyll's [built-in chart](https://idyll-lang.org/docs/component/chart), and one with [VegaLite](https://vega.github.io/vega-lite/).
+
+## Built-in Chart
+In this section, I try to plot the relationship between `Year Constructed` and `Year Acquired`. A built-in scatter plot is used here to better present each building with a specific dot.
+
+[data name:"building" source:"building_inventory.csv" /]
+[Chart type:"scatter" data:`building` domain:`[1750,2020]` range:`[1750,2020]` x:'Year Constructed' y:'Year Acquired' /]
+
+From the plot above, we can see that most buildings were constructed and acquired in the same year, although there are several exceptions.
+
+## Plot using VegaLite
+
+For the second try, I would like to find out the status of buildings in each congressional district. The variables used here are `Congress Dist` and `Bldg Status`. A bar mark is used for the visualization as we don't need a variable for the y-axis; 
+a bar chart is enough for showing the numbers of buildings in the congressional districts. 
+
+[IdyllVegaLite data:building spec:`{
+  width:500,
+  height:200,
+  mark:'bar',
+  encoding:{
+    x:{field:'Congress Dist',type:"nominal"},
+    y:{aggregate:"count",type:"quantitative",title:"Number of Buildings"},
+    color:{
+      "field": "Bldg Status",
+      "type": "nominal",
+      "scale": {
+        "domain": ["In Use", "In Progress", "Abandon"],
+        "range": ["#e7ba52", "#c7c7c7", "#aec7e8"]
+      }}
+}}` /]
+
+From the bar chart above, it is clear that most public buildings are still in use.
+We can also find out that the number of public buildings differs much in different congressional districts.
