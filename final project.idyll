@@ -1,0 +1,238 @@
+[meta title:"ATP Matches in 2019: Easier or Harder?" description:"A Simple Analysis of The Scores" /]
+
+[Header
+  fullWidth:true
+  title:"Easier or Harder Tennis Matches?"
+  subtitle:"A Simple Analysis of ATP Scores in 2019"
+  author:"Yawen Feng"
+  background:"#f7b64d"
+  color:"#583e94"
+   /]
+
+## Introduction
+
+Even if you are not a tennis fan, you might have heard that tennis is one of the toughest sports in the world, and men's singles may be the hardest among all professional tennis tournaments.
+The recorded [longest match](https://en.wikipedia.org/wiki/Isner%E2%80%93Mahut_match_at_the_2010_Wimbledon_Championships#:~:text=In%20total%2C%20the%20match%20took,time%20and%20number%20of%20games.) between men's single players lasted for 11 hours, 5 minutes over three days, with a final score of 6–4, 3–6, 6–7, 7–6, 70–68.
+
+Sometimes however, lopsided matches occur as well, when one player excels the other too much.
+The recorded [shortest match](https://en.wikipedia.org/wiki/Shortest_tennis_match_records#:~:text=Jack%20Harper%20lost%20just%20a,men's%20singles%20match%20on%20record.) between men's single players lasted for only 18 minutes, with a score of 6-0, 6-0.
+
+So, exactly how tough are the recent matches? Are matches trending harder or easier? These two questions rise in my heart, and lead to this simple analysis of the latest ATP scores.
+
+## Concepts
+
+Don't know much about tennis? No worries! Basic tennis concepts are shown below. Just scroll down and feed your curiosity！ 
+
+[Scroller currentStep:scrollerIndex]
+  [Graphic style:`{padding: 50}`]
+      [img src:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1607139484953&di=cbaa6b3723ecfb41eb9ed8292f905f4b&imgtype=0&src=http%3A%2F%2Fdpic.tiankong.com%2Fgj%2Fm0%2FQJ6746025919.jpg' /] 		
+  [/Graphic]
+
+  [Step]**Point**: Smallest unit of measurement. Points increment from Love(0)-15-30-40-game.
+
+		**Game**: Each games consist of 4 points, and is won when a player reaches 4 points with at least a 2 point advantage.
+
+		**Set**: A set consists of 6 games, and is won by the player who reaches 6 games first with least a 2 point lead.
+
+		**Match**: A match is usually played as best of 3 or best of 5 sets.		
+
+		**Tie-break**: If a set score of 6-6 is reached and tie-break set rules are used, players must play a tie-break game, in which a player/team must reach 7 points with a two point advantage to win. 
+		In this case, the score of this set will be shown as 7-6(number of points the set loser got in the tie-break game).
+
+		**Bagel**: A set ends with a score of 6-0.	
+
+		Reference: http://protennistips.net/tennis-rules/
+  [/Step]
+
+  [Step]
+  		**Grand Slam**: The Grand Slam tournaments are the four most important annual tennis events: [Australian Open](https://en.wikipedia.org/wiki/Australian_Open), [French Open](https://en.wikipedia.org/wiki/French_Open)(aka Roland Garros), [Wimbledon](https://en.wikipedia.org/wiki/The_Championships,_Wimbledon) and [US Open](https://en.wikipedia.org/wiki/US_Open_(tennis).
+  [/Step]
+
+  [Step]
+  		**ATP**: The abbreviation for [Association of Tennis Professionals](https://www.atptour.com).
+
+  		**WTA**: The abbreviation for [Women's Tennis Association](https://www.wtatennis.com/).
+  [/Step]
+  
+[/Scroller]
+
+## Data
+
+Because of the Covid-19 pandemics, many tournaments were delayed or cancelled in 2020, and thus the main dataset used in the analysis is from 2019. For comparision, I also use data of 2016-2018.  
+
+### Source
+
+I find the needed datasets from [Jeff Sackmann](https://github.com/JeffSackmann). Actually, Jeff also hosted ATP match data of other years and WTA match data. 
+
+### License
+
+We are allowed to **share** the dataset, **adapt** it and **build** our work upon it, as the dataset is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/), which in short is: 
+
+- Attribution is required;
+- Non-commercial use only.
+
+### Size and Location
+
+The main dataset named **`atp_matches_2019.csv`**  is **608KB** in size and contains **2781 rows** and **49 columns**. It can also be viewed online [here](https://github.com/JeffSackmann/tennis_atp/blob/master/atp_matches_2019.csv).
+
+Other datasets used can be viewed here:
+
+- **[atp_matches_2016.csv](https://github.com/JeffSackmann/tennis_atp/blob/master/atp_matches_2016.csv)** 
+- **[atp_matches_2017.csv](https://github.com/JeffSackmann/tennis_atp/blob/master/atp_matches_2017.csv)** 
+- **[atp_matches_2018.csv](https://github.com/JeffSackmann/tennis_atp/blob/master/atp_matches_2018.csv)**
+
+For the purpose of comparison, the four datasets are merged together by the author.
+
+[data name:"atp1619" source:"atp_matches_2016_2019.csv" /]
+
+### Column Meaning
+
+In my analysis, I use only some columns whose data type and meaning are presented as belows, so I remove unused columns from the files. Please browse Jeff's [dictionary](https://github.com/JeffSackmann/tennis_atp/blob/master/matches_data_dictionary.txt) if you want to know more about other columns.
+
+- surface: court surface, including clay, hard and grass.
+- tourney_level: 'G' = Grand Slams, 'M' = Masters 1000s, 'A' = other tour-level events, 'F' = Tour finals and other season-ending events, and 'D' = Davis Cup.
+- tourney_date: eight digits, YYYYMMDD, usually the Monday of the tournament week.
+- score
+- minutes: match length, when available.
+- tie-break(coded): the amount of sets with a score of 7-6 or 6-7.
+- bagel(coded): the amount of sets with a score of 6-0 or 0-6.
+- Year(coded): the year of the ATP season the match belongs to
+
+#### A quick look into the Merged Dataset (Trimmed)
+
+[Table data:`atp1619.slice(0,10)` /]
+
+## Analysis
+
+### Average match length
+
+An effective way to assess if matches in 2019 were easier or harder than before is to compare the average match length in different years.
+
+Although the match length differs among different matches and is impacted by the court type, as tournaments' level, frequency, location and court type are rather steady from year to year，the average match length still tells the story.
+
+Overall, a longer average match length indicates harder matches, while a shorter one implies easier ones.
+
+[IdyllVegaLite data:atp1619 spec:`{
+  title: {
+  		text: "2016-2019 Average Match Length in Different Courts", anchor:"middle"},
+  width:150,
+  height:200,
+  transform:[{filter:{field:"surface", oneOf:["Clay","Hard","Grass"]}},
+  			{filter:{field:"minutes", "gte":0}}],
+  mark:'bar',
+  encoding:{
+    x: {
+    	field: "year", type: "nominal", title:null
+    },
+    y:{
+    	field:"minutes",aggregate:"mean",type:"quantitative",title:"Average match length (min)"
+    },
+    column: {
+      	field: "surface", type: "nominal"
+    },
+    color: {
+      	field: "year", type: "nominal",legend: null
+    }
+}}` /]
+
+The bar chart above shows that longer average match length occurred in 2019, when compared to records in 2016-2018. 
+
+**From this aspect, matches in 2019 were `harder`**.
+
+### Tie-breaks and Bagels
+
+The other two criteria for assessing the overall difficulty of matches in 2019 are the number of tie-breaks (7-6/6-7) and the number of bagels (6-0/0-6).
+
+Although the numbers of matches in different years are not exactly the same, the difference is small in recent years. Thus, the comparison of tie-break counts and bagel counts can still tell us something.
+
+Generally, more tie-breaks imply a higher level of match difficulty; more bagels imply a lower difficulty.
+
+(Instruction: choose a year and a type below for the visualization to explore the data.) 
+
+[var name:"selectVal1" value:"2019" /]
+[var name:"selectVal2" value:"tie-break" /]
+
+[IdyllVegaLite data:atp1619 spec:`{
+  title: {
+  		text: "Cumulative Tie-break/ Bagel Counts", anchor:"middle"},
+  width:500,
+  height:200,
+  transform:[{filter:{field:"surface", oneOf:["Clay","Hard","Grass"]}},
+  			{filter:{"field": "year", equal: selectVal1 }},
+  			{window: [{"op": "sum", "field": selectVal2, "as": "Cumulative Count"}]},
+  			{frame:[null,0]}],
+  mark:'line',
+  encoding:{
+    x: {
+    	field: "tourney_date", title:null
+    },
+    y:{
+    	field:"Cumulative Count",type:"quantitative",title:"Cumulative Count",scale:{domain:[0,1500]}
+    }
+}}` /]
+
+Year: [Select value:selectVal1 options:`['2016','2017','2018','2019']`  /]
+Type: [Select value:selectVal2 options:`['tie-break','bagel']`  /]
+
+2019's tie-break count is more than average in the recent four years, while the bagel count is less than average. 
+This seems to correspond with the result above, that **2019 indeed viewed `tougher` matches**. 
+
+
+### Grand Slam Tie-breaks and Bagels
+
+In any sport field, the competitions between top players are always the focus in the audience's eyes.
+When things come to tennis, of course we will ask: What about those Grand Slam matches? Are they showing a same trending?
+
+Find the answer below!
+
+(Instruction: choose the Grand Slam to explore the data.) 
+
+[var name:"selectVal3" value:"Australian Open" /]
+
+[IdyllVegaLite data:atp1619 spec:`{
+  title: {
+  		text: "Tie-breaks (Blue Line) and Bagels (Green Bar) in Grand Slam", anchor:"middle"},
+  width:500,
+  height:200,
+  transform:[{filter:{"field": "tourney_name", equal: selectVal3}}],
+  layer:[{
+  mark:'line',
+  encoding:{
+    x: {
+    	field: "year", type: "nominal", title:null
+    },
+    y:{
+    	field:"tie-break",aggregate:"sum",type:"quantitative",scale:{domain:[0,120],title:"Sum of Tie-breaks in Line"}
+    }
+}},
+		   {
+  mark:{"type": "bar", "color": "#85C5A6"},
+  encoding:{
+    x: {
+    	field: "year", type: "nominal", title:null
+    },
+    y:{
+    	field:"bagel",aggregate:"sum",type:"quantitative",title:"Sum of Bagels in bar"
+    }
+}}]}` /]
+
+Grand Slam: [Select value:selectVal3 options:`['Australian Open','Roland Garros','Wimbledon','US Open']`  /]
+
+In 2019, during the **Australian Open** and the **US Open**, the two Grand Slams on the **Hard Court**, matches seemed to be **harder** than before ones.
+
+On the other side, in **Roland Garros** (**Clay Court**) and **Wimbledon** (**Grass Court**), matches seemed to be **easier** than those in previous years.
+
+## Conclusion
+
+Learning from the above visualizations, my answer to the question: 
+
+'**ATP Matches in 2019: Easier or Harder?**'
+
+is:
+
+'**Harder**',
+
+although for some specific courts, the answer may be different. 
+
+What do you think?
+
